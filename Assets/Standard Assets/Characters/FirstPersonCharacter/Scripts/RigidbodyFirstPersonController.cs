@@ -22,6 +22,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
             [HideInInspector] public float CurrentTargetSpeed = 8f;
 
+            public Action<Vector2> MoveInputCallBack;
+
 #if !MOBILE_INPUT
             private bool m_Running;
 #endif
@@ -29,6 +31,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
 	            if (input == Vector2.zero) return;
+
+                if(MoveInputCallBack!=null)
+                {
+                    MoveInputCallBack(input);
+                }
+
 				if (input.x > 0 || input.x < 0)
 				{
 					//strafe
